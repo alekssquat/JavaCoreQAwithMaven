@@ -1,5 +1,4 @@
-package AccuweatherTest;
-
+package WeatherTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
@@ -8,23 +7,25 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class RequestHandler {
+public class DailyForecasts {
+
     static OkHttpClient client= new OkHttpClient();
     static ObjectMapper objectMapper= new ObjectMapper();
 
-    public static String detectedCity (String cityName) throws IOException {
+    public static String detectedWeather (String cityCode) throws IOException {
 
-        //Создаем URL запроса прописываем тело
+        //Создаем URL запроса, прописываем тело
 
         HttpUrl detectedCityURL=new HttpUrl.Builder()
                 .scheme(BaseParams.scheme)
                 .host(BaseParams.HOST)
-                .addPathSegment("locations")
+                .addPathSegment("forecasts")
                 .addPathSegment("v1")
-                .addPathSegment("cities")
-                .addPathSegment("search")
+                .addPathSegment("daily")
+                .addPathSegment("1day")
+                .addPathSegment(cityCode)
                 .addQueryParameter("apikey",BaseParams.API_KEY)
-                .addQueryParameter("q",cityName)
+                .addQueryParameter("metric", "true")
                 .build();
 
         //Создаем тело запроса
@@ -36,7 +37,6 @@ public class RequestHandler {
         //Запарашиваем ответ
         Response response = client.newCall(request).execute();
 
-        String json=response.body().string();
 
         //If Response Failed
         if(!response.isSuccessful()){
@@ -46,23 +46,12 @@ public class RequestHandler {
                     +" body - "+response.body().string());
         }
 
-        if(objectMapper.readTree(json).size()>0){
-
-            String cityCode = objectMapper.readTree(json).get(0).at("/LocalizedName").asText();
-            String country=objectMapper.readTree(json).get(0).at("/Country/LocalizedName").asText();
-            System.out.println(cityCode+" - "+country);
-
-        }else {
-
-            throw new IOException("Server response is empty");
-
-        }
-
-
-
-
-
-        return objectMapper.readTree(json).get(0).at("/Key").asText();
+        return response.body().string();
     }
+
+
+
+
+
 
 }

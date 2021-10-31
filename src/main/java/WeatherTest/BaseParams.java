@@ -1,4 +1,4 @@
-package AccuweatherTest;
+package WeatherTest;
 
 public class BaseParams {
 

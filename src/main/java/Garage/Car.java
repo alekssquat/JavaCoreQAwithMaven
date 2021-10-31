@@ -1,5 +1,4 @@
-package JsonGarageTest;
-
+package Garage;
 public class Car {
 
     String name;
