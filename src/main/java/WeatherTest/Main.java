@@ -1,4 +1,4 @@
-package AccuweatherTest;
+package WeatherTest;
 
 import java.io.IOException;
 import java.util.Scanner;

@@ -1,5 +1,4 @@
-package JsonGarageTest;
-
+package Garage;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -9,8 +8,8 @@ import java.util.ArrayList;
 @JsonDeserialize(as=Garage.class)
 
 public class Garage {
-String title;
-ArrayList<Car>garage;
+    String title;
+    ArrayList<Car>garage;
 
     public Garage(String title, ArrayList<Car> garage) {
         this.title = title;
